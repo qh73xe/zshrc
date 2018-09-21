@@ -45,6 +45,13 @@ else
   fi
   export ZPLUG_HOME="$HOME/.zplug"
   source ~/.zplug/init.zsh
+
+  zplug "peco/peco", as:command, from:gh-r, use:"*amd64*"
+  zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
+  zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
+  zplug "mollifier/anyframe"
+  
+
   # 情報追加
   zplug "tcnksm/docker-alias", use:zshrc
   zplug "plugins/git",   from:oh-my-zsh
@@ -64,9 +71,9 @@ else
   zplug "tarruda/zsh-fuzzy-match"
 
   # プロンプト表示
+  zplug "yonchu/zsh-python-prompt"
   zplug "mafredri/zsh-async"
   zplug "sindresorhus/pure"
-  zplug "yonchu/zsh-python-prompt"
 
   # gibo
   zplug 'simonwhitaker/gibo', use:'gibo', as:command
@@ -77,10 +84,8 @@ else
     if read -q; then
       echo; zplug install
     fi
-    zplug load --verbose
-  else
-    zplug load
   fi
+  zplug load --verbose
 
   # ===================================================
   # 言語設定
@@ -96,6 +101,7 @@ else
   # ===================================================
   alias vi='nvim'
   alias vim='nvim'
+  alias cdg='cd-gitroot'
 
   hash -d proj=~/Documents/proj
   hash -d prod=~/Documents/prod
@@ -103,14 +109,21 @@ else
   # ===================================================
   # 開発環境
   # ===================================================
-
+  # anyframeの設定
+  setopt AUTO_PUSHD # cdしたら自動でディレクトリスタックする
+  setopt pushd_ignore_dups # 同じディレクトリは追加しない
+  DIRSTACKSIZE=100 # スタックサイズ
+  autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+  add-zsh-hook chpwd chpwd_recent_dirs
+  zstyle ":anyframe:selector:" use peco
+  bindkey '^Z' anyframe-widget-cdr
+  bindkey '^R' anyframe-widget-put-history
   # pyenv
   if [ -e "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
-    pyenv shell --unset
   fi
 
   # node
