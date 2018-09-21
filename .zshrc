@@ -137,3 +137,22 @@ else
     eval "$(direnv hook zsh)"
   fi
 fi
+
+
+# コマンド実行後フック
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec ime_off
+add-zsh-hook precmd ime_off
+
+ime_off() {
+  #  コマンド実行後に IME を off にする.
+  case ${OSTYPE} in
+    darwin*)
+      ;;
+    linux*)
+      if [ $(ibus engine) != "xkb:jp::jpn" ]; then
+        ibus engine xkb:jp::jpn
+      fi
+      ;;
+  esac
+}
