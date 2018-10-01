@@ -33,6 +33,7 @@ if [[ -z "$TMUX" && ! -z "$PS1" ]];
   # tmux の呼出し
   # ===================================================
   then
+  export TMUX_POWERLINE_SEG_WEATHER_LOCATION="26237038"
   export TERM=xterm-256color
   tmux
 else
