@@ -33,7 +33,7 @@ if [[ -z "$TMUX" && ! -z "$PS1" ]];
   # tmux の呼出し
   # ===================================================
   then
-  export TERM=xterm-256color
+  export TERM='xterm-256color'
   tmux
 else
   # ===================================================
@@ -135,6 +135,10 @@ else
   DIRENV=$(pgrep -f -l 'evince' | wc -l)
   if [ "${DIRENV}" -eq  0 ]; then
     eval "$(direnv hook zsh)"
+  fi
+
+  if [ -e "$HOME/.local/bin" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
   fi
 fi
 
