@@ -140,6 +140,7 @@ else
 
   if [ -e "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH"
+    export REDPEN_HOME="$HOME/.config/redpen"
   fi
 fi
 
