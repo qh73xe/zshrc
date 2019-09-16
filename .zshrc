@@ -55,12 +55,10 @@ else
 
   # 情報追加
   zplug "tcnksm/docker-alias", use:zshrc
-  zplug "plugins/git",   from:oh-my-zsh
 
   # シンタックスハイライト
   zplug "zsh-users/zsh-syntax-highlighting"
   zplug "chrissicool/zsh-256color"
-  zplug "ascii-soup/zsh-url-highlighter"
 
   # 移動支援
   zplug "mollifier/cd-gitroot"
@@ -149,9 +147,13 @@ ime_off() {
     darwin*)
       ;;
     linux*)
-      if [ $(ibus engine) != "ibus engine xkb:us::eng" ]; then
-          ibus engine xkb:us::eng
-      fi
+        if [ $(ibus engine) != "xkb:us::eng" ]; then
+            ibus engine xkb:us::eng
+        fi
+        # 日本語キーボードを利用している場合こちらを選択.
+        # if [ $(ibus engine) == "xkb:jp::jpn" ]; then
+        #     ibus engine xkb:jp::jpn
+        # fi
       ;;
   esac
 }
