@@ -117,6 +117,7 @@ else
   zstyle ":anyframe:selector:" use peco
   bindkey '^Z' anyframe-widget-cdr
   bindkey '^R' anyframe-widget-put-history
+
   # pyenv
   if [ -e "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
@@ -129,6 +130,12 @@ else
     export PATH="$HOME/.npm-global/bin:$PATH"
   fi
 
+  # yarn
+  if [ -e "$HOME/.yarn/bin" ]; then
+    export PATH="$HOME/.yarn/bin:$PATH"
+  fi
+
+  # pip or others
   if [ -e "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH"
     export REDPEN_HOME="$HOME/.config/redpen"
