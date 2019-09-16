@@ -51,7 +51,7 @@ else
   zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
   zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
   zplug "mollifier/anyframe"
-  
+
 
   # 情報追加
   zplug "tcnksm/docker-alias", use:zshrc
@@ -124,18 +124,11 @@ else
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
   fi
 
   # node
   if [ -e "$HOME/.npm-global/bin" ]; then
     export PATH="$HOME/.npm-global/bin:$PATH"
-  fi
-
-  # direnv
-  DIRENV=$(pgrep -f -l 'evince' | wc -l)
-  if [ "${DIRENV}" -eq  0 ]; then
-    eval "$(direnv hook zsh)"
   fi
 
   if [ -e "$HOME/.local/bin" ]; then
@@ -156,8 +149,8 @@ ime_off() {
     darwin*)
       ;;
     linux*)
-      if [ $(ibus engine) != "xkb:jp::jpn" ]; then
-        ibus engine xkb:jp::jpn
+      if [ $(ibus engine) != "ibus engine xkb:us::eng" ]; then
+          ibus engine xkb:us::eng
       fi
       ;;
   esac
