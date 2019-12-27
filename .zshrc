@@ -64,6 +64,7 @@ else
   zplug "mollifier/cd-gitroot"
 
   # 補完
+  zplug "hchbaw/auto-fu.zsh"
   zplug "zsh-users/zsh-autosuggestions"
   zplug "zsh-users/zsh-completions"
   zplug "zsh-users/zsh-history-substring-search"
@@ -72,7 +73,7 @@ else
   # プロンプト表示
   zplug "yonchu/zsh-python-prompt"
   zplug "mafredri/zsh-async"
-  zplug "sindresorhus/pure"
+  zplug "modules/prompt", from:prezto
 
   # gibo
   zplug 'simonwhitaker/gibo', use:'gibo', as:command
@@ -108,6 +109,7 @@ else
   # ===================================================
   # 開発環境
   # ===================================================
+
   # anyframeの設定
   setopt AUTO_PUSHD # cdしたら自動でディレクトリスタックする
   setopt pushd_ignore_dups # 同じディレクトリは追加しない
@@ -117,6 +119,18 @@ else
   zstyle ":anyframe:selector:" use peco
   bindkey '^Z' anyframe-widget-cdr
   bindkey '^R' anyframe-widget-put-history
+
+  # auto-fu
+  function zle-line-init () {
+    auto-fu-init
+  }
+  zle -N zle-line-init
+  zstyle ':auto-fu:var' postdisplay $''
+  zstyle ':completion:*' completer _oldlist _complete
+
+  # prompt
+  autoload -U promptinit; promptinit
+  prompt steeef
 
   # pyenv
   if [ -e "$HOME/.pyenv" ]; then
