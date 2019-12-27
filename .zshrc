@@ -124,7 +124,6 @@ else
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
   fi
-
   # node
   if [ -e "$HOME/.npm-global/bin" ]; then
     export PATH="$HOME/.npm-global/bin:$PATH"
@@ -142,6 +141,10 @@ else
   fi
 fi
 
+if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
+  source "${VIRTUAL_ENV}/bin/activate"
+fi
+
 
 # コマンド実行後フック
 autoload -Uz add-zsh-hook
@@ -154,9 +157,9 @@ ime_off() {
     darwin*)
       ;;
     linux*)
-        if [ $(ibus engine) != "xkb:us::eng" ]; then
-            ibus engine xkb:us::eng
-        fi
+        # if [ $(ibus engine) != "xkb:us::eng" ]; then
+        #     ibus engine xkb:us::eng
+        # fi
         # 日本語キーボードを利用している場合こちらを選択.
         # if [ $(ibus engine) == "xkb:jp::jpn" ]; then
         #     ibus engine xkb:jp::jpn
