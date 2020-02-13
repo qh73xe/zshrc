@@ -97,11 +97,26 @@ else
   export LANG=en_US.UTF-8
 
   # ===================================================
+  # その他環境設定
+  # ===================================================
+  export EDITOR=nvim
+
+  # ===================================================
   # エイリアス
   # ===================================================
   alias vi='nvim'
   alias vim='nvim'
   alias cdg='cd-gitroot'
+  alias open='xdg-open'
+
+  alias penv='pipenv'
+  alias prun='pipenv run'
+  alias prunp='pipenv run python'
+  alias pnvim='pipenv run nvim'
+  alias pvim='pipenv run nvim'
+
+  alias lmkp="latexmk -pvc"
+  alias lmk="latexmk -pdf"
 
   hash -d proj=~/Documents/proj
   hash -d prod=~/Documents/prod
@@ -131,23 +146,33 @@ else
   # prompt
   autoload -U promptinit; promptinit
   prompt steeef
-
+  # direnv
+  if type "direnv" > /dev/null 2>&1; then
+    eval "$(direnv hook zsh)"
+  fi
   # pyenv
   if [ -e "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
   fi
+  # pipenv
+  if builtin command -v pipenv > /dev/null; then
+    eval "$(pipenv --completion)"
+  fi
   # node
   if [ -e "$HOME/.npm-global/bin" ]; then
     export PATH="$HOME/.npm-global/bin:$PATH"
   fi
-
   # yarn
   if [ -e "$HOME/.yarn/bin" ]; then
     export PATH="$HOME/.yarn/bin:$PATH"
   fi
-
+  # ruby
+  if [ -e "$HOME/.rbenv" ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+  fi
   # pip or others
   if [ -e "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH"
