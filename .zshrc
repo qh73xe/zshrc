@@ -1,57 +1,137 @@
 # ========================================================
-# 設定用の便利関数
+# OS 別の設定
 # ========================================================
-install_if_not_exist () {
-  case ${OSTYPE} in
-      darwin*)
-          install_cmd="brew"
-          ;;
-      linux*)
-          install_cmd="sudo apt"
-          ;;
-  esac
-  if ! builtin command -v $1 > /dev/null;
-    then
-    sh -c "$install_cmd install $1"
-  fi
+case ${OSTYPE} in
+    darwin*)
+        export INSTALL_CMD="brew"
+        export IMEOFF_CMD=""
+        ;;
+    linux*)
+        # ディストリビューション判定
+        if builtin command -v hostnamectl > /dev/null; then
+            export DISTRIBUTION=$(hostnamectl | grep 'Operating System' | awk '{ print $3 }' | tr '[A-Z]' '[a-z]')
+        fi
+
+        # ディストリビューション毎の処理
+        export INSTALL_CMD="sudo apt"
+        case ${DISTRIBUTION} in
+            ubuntu*)
+                export INSTALL_CMD="sudo apt"
+            ;;
+            fedora*)
+                export INSTALL_CMD="sudo yum"
+            ;;
+        esac
+
+        # キーボードレイアウトからデフォルトの ibus 設定を決定
+        if builtin command -v ibus > /dev/null; then
+            if [ $(cat /etc/default/keyboard | grep XKBLAYOUT | grep "us") ]; then
+                export IMEOFF_CMD="ibus engine xkb:us::eng"
+            else
+                export IMEOFF_CMD="ibus engine xkb:jp::jpn"
+            fi
+        else
+            export IMEOFF_CMD=""
+        fi
+        alias open='xdg-open'
+        ;;
+esac
+
+# ========================================================
+# オリジナル関数
+# ========================================================
+
+# IME をオフにする
+ime_off() {
+    if [ ${IMEOFF_CMD} ]; then
+        zsh -c "${IMEOFF_CMD}"
+    fi
 }
 
-load_if_exist () {
-  if [[ -s $1 ]]; then
-    source $1
-  fi
+# アプリケーションを入れる
+install_cmd() {
+    if [ ${INSTALL_CMD} ]; then
+        if builtin command -v $1 > /dev/null; then
+        else
+           zsh -c "${INSTALL_CMD} install $1"
+        fi
+    fi
 }
 
-# 種々欲しいコマンドのインストール
-# ========================================================
-install_if_not_exist curl
-install_if_not_exist git
-install_if_not_exist tmux
 
-if [[ -z "$TMUX" && ! -z "$PS1" ]];
-  # ===================================================
+# ========================================================
+# 必要ライブラリの導入
+# ========================================================
+install_cmd tmux
+install_cmd git
+install_cmd nvim
+install_cmd global
+install_cmd ctags
+install_cmd mupdf
+install_cmd xdotool
+install_cmd chktex
+install_cmd jq
+install_cmd shellcheck
+install_cmd cmigemo
+install_cmd direnv
+install_cmd latexmk
+
+
+# ========================================================
+# 基本設定
+# ========================================================
+# 言語設定
+export LANG=ja_JP.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# エディタ設定
+export EDITOR=nvim
+
+# ディレクトリエイリアス
+hash -d proj=~/Documents/proj
+hash -d prod=~/Documents/prod
+
+# エイリアス
+alias vi='nvim'
+alias vim='nvim'
+alias lmkp="latexmk -pvc"
+alias lmk="latexmk -pdf"
+
+# コマンド実行後フック
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd ime_off
+
+
+if [[ -z "$TMUX" && ! -z "$PS1" ]]; then
+  alias penv='pipenv'
+  alias prun='pipenv run'
+  alias prunp='pipenv run python'
+  alias pnvim='pipenv run nvim'
+  alias pvim='pipenv run nvim'
+
   # tmux の呼出し
-  # ===================================================
-  then
+  # --------------------------------------------------------
   export TMUX_POWERLINE_SEG_WEATHER_LOCATION="26237038"
   export TERM=xterm-256color
   tmux
 else
-  # ===================================================
+  # --------------------------------------------------------
   # zplug
-  # ===================================================
+  # --------------------------------------------------------
   if [ ! -e "$HOME/.zplug" ]; then
     curl -sL --proto-redir -all,https \
     https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   fi
+
   export ZPLUG_HOME="$HOME/.zplug"
   source ~/.zplug/init.zsh
-
   zplug "peco/peco", as:command, from:gh-r, use:"*amd64*"
   zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
   zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
   zplug "mollifier/anyframe"
-
 
   # 情報追加
   zplug "tcnksm/docker-alias", use:zshrc
@@ -85,47 +165,12 @@ else
       echo; zplug install
     fi
   fi
-  zplug load --verbose
+  zplug load
 
-  # ===================================================
-  # 言語設定
-  # ===================================================
-  export LANG=ja_JP.UTF-8
-  export LANGUAGE=en_US.UTF-8
-  export LC_ALL=en_US.UTF-8
-  export LC_CTYPE=en_US.UTF-8
-  export LANG=en_US.UTF-8
-
-  # ===================================================
-  # その他環境設定
-  # ===================================================
-  export EDITOR=nvim
-
-  # ===================================================
-  # エイリアス
-  # ===================================================
-  alias vi='nvim'
-  alias vim='nvim'
+  # mollifier/cd-gitroot
   alias cdg='cd-gitroot'
-  alias open='xdg-open'
 
-  alias penv='pipenv'
-  alias prun='pipenv run'
-  alias prunp='pipenv run python'
-  alias pnvim='pipenv run nvim'
-  alias pvim='pipenv run nvim'
-
-  alias lmkp="latexmk -pvc"
-  alias lmk="latexmk -pdf"
-
-  hash -d proj=~/Documents/proj
-  hash -d prod=~/Documents/prod
-
-  # ===================================================
-  # 開発環境
-  # ===================================================
-
-  # anyframeの設定
+  # mollifier/anyframe
   setopt AUTO_PUSHD # cdしたら自動でディレクトリスタックする
   setopt pushd_ignore_dups # 同じディレクトリは追加しない
   DIRSTACKSIZE=100 # スタックサイズ
@@ -135,7 +180,7 @@ else
   bindkey '^Z' anyframe-widget-cdr
   bindkey '^R' anyframe-widget-put-history
 
-  # auto-fu
+  # hchbaw/auto-fu.zsh
   function zle-line-init () {
     auto-fu-init
   }
@@ -143,66 +188,79 @@ else
   zstyle ':auto-fu:var' postdisplay $''
   zstyle ':completion:*' completer _oldlist _complete
 
-  # prompt
+  # プロンプト設定
   autoload -U promptinit; promptinit
   prompt steeef
+
+  # ===================================================
+  # 開発環境
+  # ===================================================
   # direnv
-  if type "direnv" > /dev/null 2>&1; then
+  if builtin command -v direnv > /dev/null; then
     eval "$(direnv hook zsh)"
   fi
+
+  # pip or others
+  if [ -e "$HOME/.local/bin" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
+    export REDPEN_HOME="$HOME/.config/redpen"
+    pip_cmd() {
+        if builtin command -v pip3 > /dev/null; then
+          if builtin command -v $1 > /dev/null; then
+          else
+              zsh -c "pip3 install --user $1"
+           fi
+        fi
+    }
+    pip_cmd flake8
+    pip_cmd yapf
+    pip_cmd isort
+    pip_cmd yamllint
+    pip_cmd jupyter
+  fi
+
   # pyenv
   if [ -e "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
   fi
+
   # pipenv
   if builtin command -v pipenv > /dev/null; then
     eval "$(pipenv --completion)"
+    function auto_pipenv_shell {
+        if [ ! -n "${PIPENV_ACTIVE+1}" ]; then
+            if [ -f "Pipfile" ] ; then
+                pipenv shell
+            fi
+        fi
+    }
+    auto_pipenv_shell
+    add-zsh-hook zshaddhistory auto_pipenv_shell
   fi
+
   # node
   if [ -e "$HOME/.npm-global/bin" ]; then
     export PATH="$HOME/.npm-global/bin:$PATH"
   fi
+
   # yarn
   if [ -e "$HOME/.yarn/bin" ]; then
     export PATH="$HOME/.yarn/bin:$PATH"
+    yarn_cmd() {
+        if builtin command -v $1 > /dev/null; then
+        else
+          zsh -c "yarn add -G $1"
+        fi
+    }
+    yarn_cmd prettier
+    yarn_cmd vue
   fi
+
   # ruby
   if [ -e "$HOME/.rbenv" ]; then
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
   fi
-  # pip or others
-  if [ -e "$HOME/.local/bin" ]; then
-    export PATH="$HOME/.local/bin:$PATH"
-    export REDPEN_HOME="$HOME/.config/redpen"
-  fi
 fi
-
-if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
-  source "${VIRTUAL_ENV}/bin/activate"
-fi
-
-
-# コマンド実行後フック
-autoload -Uz add-zsh-hook
-add-zsh-hook preexec ime_off
-add-zsh-hook precmd ime_off
-
-ime_off() {
-  #  コマンド実行後に IME を off にする.
-  case ${OSTYPE} in
-    darwin*)
-      ;;
-    linux*)
-        # if [ $(ibus engine) != "xkb:us::eng" ]; then
-        #     ibus engine xkb:us::eng
-        # fi
-        # 日本語キーボードを利用している場合こちらを選択.
-        # if [ $(ibus engine) == "xkb:jp::jpn" ]; then
-        #     ibus engine xkb:jp::jpn
-        # fi
-      ;;
-  esac
-}
