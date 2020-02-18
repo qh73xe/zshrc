@@ -271,7 +271,7 @@ else
     RANGER_CMD=$(which ranger)
     function ranger() {
         if [ -z "$RANGER_LEVEL" ]; then
-            RANGER_CMD $@
+            $RANGER_CMD $@
         else
             exit
         fi
