@@ -78,6 +78,10 @@ install_cmd direnv
 install_cmd latexmk
 install_cmd ranger
 
+if [ $DISTRIBUTION = "ubuntu" ]; then
+  install_cmd terminology
+fi
+
 
 # ========================================================
 # 基本設定
@@ -289,7 +293,7 @@ else
         fi
     }
     alias config='ranger $HOME/.config'
-    alias vimrc='ranger $HOME/.config/vim'
+    alias vimrc='ranger $HOME/.config/nvim'
     alias zshrc='ranger $HOME/.config/zsh'
     alias tmuxrc='ranger $HOME/.config/tmux'
     alias rangerrc='ranger $HOME/.config/ranger'
