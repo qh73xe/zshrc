@@ -3,7 +3,7 @@
 # ========================================================
 case ${OSTYPE} in
     darwin*)
-        export INSTALL_CMD="brew"
+        export INSTALL_CMD="brew install"
         export IMEOFF_CMD=""
         ;;
     linux*)
@@ -13,13 +13,13 @@ case ${OSTYPE} in
         fi
 
         # ディストリビューション毎の処理
-        export INSTALL_CMD="sudo apt"
+        export INSTALL_CMD="sudo apt install -y"
         case ${DISTRIBUTION} in
             ubuntu*)
-                export INSTALL_CMD="sudo apt"
+                export INSTALL_CMD="sudo apt install -y"
             ;;
             fedora*)
-                export INSTALL_CMD="sudo yum"
+                export INSTALL_CMD="sudo yum install"
             ;;
         esac
 
@@ -53,7 +53,7 @@ install_cmd() {
     if [ ${INSTALL_CMD} ]; then
         if builtin command -v $1 > /dev/null; then
         else
-           zsh -c "${INSTALL_CMD} install $1"
+           zsh -c "${INSTALL_CMD} $1"
         fi
     fi
 }
@@ -75,6 +75,7 @@ install_cmd shellcheck
 install_cmd cmigemo
 install_cmd direnv
 install_cmd latexmk
+install_cmd ranger
 
 
 # ========================================================
@@ -99,6 +100,7 @@ alias vi='nvim'
 alias vim='nvim'
 alias lmkp="latexmk -pvc"
 alias lmk="latexmk -pdf"
+alias slack-term="slack-term --config $HOME/snap/slack-term/current/slack-term.json"
 
 # コマンド実行後フック
 autoload -Uz add-zsh-hook
@@ -262,5 +264,17 @@ else
   if [ -e "$HOME/.rbenv" ]; then
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
+  fi
+
+  # ranger
+  if builtin command -v ranger > /dev/null; then
+    RANGER_CMD=$(which ranger)
+    function ranger() {
+        if [ -z "$RANGER_LEVEL" ]; then
+            RANGER_CMD $@
+        else
+            exit
+        fi
+    }
   fi
 fi
