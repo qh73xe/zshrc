@@ -111,6 +111,7 @@ alias prun='pipenv run'
 alias prunp='pipenv run python'
 alias pnvim='pipenv run nvim'
 alias pvim='pipenv run nvim'
+alias cdc='cd ~/.config'
 
 # コマンド実行後フック
 autoload -Uz add-zsh-hook
@@ -218,8 +219,11 @@ if builtin command -v pipenv > /dev/null; then
           fi
       fi
   }
+  function cd {
+      builtin cd "$@"
+      auto_pipenv_shell
+  }
   auto_pipenv_shell
-  add-zsh-hook zshaddhistory auto_pipenv_shell
 fi
 
 # --------------------------------------------------------
@@ -306,6 +310,7 @@ alias cdg='cd-gitroot'
 # mollifier/anyframe
 setopt AUTO_PUSHD # cdしたら自動でディレクトリスタックする
 setopt pushd_ignore_dups # 同じディレクトリは追加しない
+setopt auto_cd # # cdコマンドを省略
 DIRSTACKSIZE=100 # スタックサイズ
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
