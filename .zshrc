@@ -14,9 +14,12 @@ function loadlib() {
     fi
 }
 
+
+
 # 基本設定ファイルの呼出
 loadlib $ZSH_CONF_DIR/ostype.zsh
 loadlib $ZSH_CONF_DIR/init.zsh
+loadlib $ZSH_CONF_DIR/install_tool.zsh
 
 # ツール別設定ファイルの呼出
 if [[ -z "$TMUX" && ! -z "$PS1" ]]; then
