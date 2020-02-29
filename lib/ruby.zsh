@@ -7,5 +7,5 @@ if [ -e "$HOME/.rbenv" ]; then
 fi
 
 if builtin command -v bundle > /dev/null; then
-    alias be='bundle exec'
+  alias be='bundle exec'
 fi

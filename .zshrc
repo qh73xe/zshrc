@@ -14,8 +14,6 @@ function loadlib() {
     fi
 }
 
-
-
 # 基本設定ファイルの呼出
 loadlib $ZSH_CONF_DIR/ostype.zsh
 loadlib $ZSH_CONF_DIR/init.zsh

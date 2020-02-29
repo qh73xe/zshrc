@@ -5,6 +5,9 @@ if builtin command -v nvim > /dev/null; then
       rm -rf $HOME/.config/nvim/
     fi
     git clone git@github.com:qh73xe/nvim.git  $HOME/.config/nvim
+    if [ $DISTRIBUTION = "ubuntu" ]; then
+      .  $HOME/.config/nvim/setup/setup.ubuntu.zsh
+    fi
   fi
   alias vi='nvim'
   alias vim='nvim'

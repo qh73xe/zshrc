@@ -1,12 +1,12 @@
 # アプリケーションを入れる
 install_cmd() {
-    if [ ${INSTALL_CMD} ]; then
-        if builtin command -v $1 > /dev/null; then
-        else
-           echo "$1 is not found."
-           zsh -c "${INSTALL_CMD} $1"
-        fi
+  if [ ${INSTALL_CMD} ]; then
+    if builtin command -v $1 > /dev/null; then
+    else
+      echo "$1 is not found."
+      zsh -c "${INSTALL_CMD} $1"
     fi
+  fi
 }
 
 # ===================================
