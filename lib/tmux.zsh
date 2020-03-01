@@ -10,8 +10,7 @@ if builtin command -v tmux > /dev/null; then
     if [ -d "$HOME/.tmux.config" ]; then
       rm -rf $HOME/.tmux.config
     fi
-
-    git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+    git clone https://github.com/erikw/tmux-powerline.git $HOME/.tmux/plugins/tmux-powerline
     git clone git@github.com:qh73xe/tmuxrc.git $HOME/.config/tmux
     ln $HOME/.config/tmux/tmux.conf $HOME/.tmux.conf
   fi

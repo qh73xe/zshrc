@@ -39,10 +39,7 @@ zplug 'simonwhitaker/gibo', use:'gibo', as:command
 
 # Install plugins if there are pl
 if ! zplug check --verbose; then
-  printf "Install? [y/N]: "
-  if [read -q]; then
-    echo; zplug install
-  fi
+  zplug install
 fi
 zplug load
 
