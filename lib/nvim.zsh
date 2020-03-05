@@ -11,7 +11,9 @@ if builtin command -v nvim > /dev/null; then
   fi
   alias vi='nvim'
   alias vim='nvim'
+  alias rmswap='rm ~/.local/share/nvim/swap/*'
   export EDITOR=nvim
+
 else
   alias vi='vim'
   alias nvim='vim'

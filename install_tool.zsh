@@ -16,6 +16,7 @@ install_cmd tmux
 install_cmd git
 install_cmd nvim
 install_cmd direnv
+install_cmd xsel
 
 # cli util
 install_cmd ranger
