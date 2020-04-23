@@ -13,7 +13,7 @@ if [ -e "$HOME/.yarn/bin" ]; then
   yarn_cmd() {
     if builtin command -v $1 > /dev/null; then
     else
-      zsh -c "yarn add -G $1"
+      zsh -c "yarn global add $1"
     fi
   }
   yarn_cmd prettier

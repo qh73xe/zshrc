@@ -34,13 +34,12 @@ fi
 # pipenv
 # ------------------------------------
 if builtin command -v pipenv > /dev/null; then
-  eval "$(pipenv --completion)"
+  # eval "$(pipenv --completion)"
   alias penv='pipenv'
   alias prun='pipenv run'
   alias prunp='pipenv run python'
   alias pnvim='pipenv run nvim'
   alias pvim='pipenv run nvim'
-
   function auto_pipenv_shell {
       if [ ! -n "${PIPENV_ACTIVE+1}" ]; then
           if [ -f "Pipfile" ] ; then
