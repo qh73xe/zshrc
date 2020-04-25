@@ -16,7 +16,6 @@ hash -d corpora=~/Documents/corpora
 
 # エイリアス
 alias cdc='cd ~/.config'
-
 setopt AUTO_CD # cdコマンドを省略
 setopt AUTO_PUSHD # cdしたら自動でディレクトリスタックする
 setopt PUSHD_IGNORE_DUPS # 同じディレクトリは追加しない
