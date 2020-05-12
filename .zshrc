@@ -13,6 +13,7 @@ function loadlib() {
         echo "$lib is not found"
     fi
 }
+export FPATH="$FPATH:$HOME/.config/functions"
 
 # 基本設定ファイルの呼出
 loadlib $ZSH_CONF_DIR/ostype.zsh
