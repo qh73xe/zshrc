@@ -13,7 +13,6 @@ function loadlib() {
         echo "$lib is not found"
     fi
 }
-export FPATH="$FPATH:$HOME/.config/functions"
 
 # 基本設定ファイルの呼出
 loadlib $ZSH_CONF_DIR/ostype.zsh
@@ -34,4 +33,6 @@ else
   loadlib $ZSH_LIB_DIR/javascript.zsh
   loadlib $ZSH_LIB_DIR/ruby.zsh
   loadlib $ZSH_LIB_DIR/zplug.zsh
+  fpath=($home/.config/zsh/functions $fpath)
+  compinit
 fi
