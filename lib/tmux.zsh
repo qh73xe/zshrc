@@ -28,7 +28,7 @@ if builtin command -v tmux > /dev/null; then
     tmux
   else
     function tmux.layout.server() {
-      sh $ZSH_BIN_DI/tmux.layout.server.sh
+      sh $ZSH_BIN_DIR/tmux.layout.server.sh
     }
   fi
 fi
