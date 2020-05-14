@@ -14,7 +14,6 @@ if builtin command -v tmux > /dev/null; then
     git clone git@github.com:qh73xe/tmuxrc.git $HOME/.config/tmux
     ln $HOME/.config/tmux/tmux.conf $HOME/.tmux.conf
   fi
-
   # tmux の多重起動を防止
   TMUX_CMD=$(which tmux)
   function tmux() {
@@ -24,7 +23,12 @@ if builtin command -v tmux > /dev/null; then
       $TMUX_CMD $@ && exit
     fi
   }
-
   # tmux の自動起動
-  tmux
+  if [[ -z "$TMUX" && ! -z "$PS1" ]]; then
+    tmux
+  else
+    function tmux.layout.server() {
+      sh $ZSH_BIN_DI/tmux.layout.server.sh
+    }
+  fi
 fi
