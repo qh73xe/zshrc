@@ -1,22 +1,23 @@
 # ------------------------------------
 # local-pip
 # ------------------------------------
-if [ -e "$HOME/.local/bin" ]; then
-    export PATH="$HOME/.local/bin:$PATH"
-    export REDPEN_HOME="$HOME/.config/redpen"
-    pip_cmd() {
-      if builtin command -v pip3 > /dev/null; then
-        if builtin command -v $1 > /dev/null; then
-        else
-          zsh -c "pip3 install --user $1"
-        fi
+if type python3 > /dev/null; then
+  PYTHONBASE=`python3 -m site --user-base`
+  export PATH="$PYTHONBASE/bin:$PATH"
+  export REDPEN_HOME="$HOME/.config/redpen"
+  pip_cmd() {
+    if builtin command -v pip3 > /dev/null; then
+      if builtin command -v $1 > /dev/null; then
+      else
+        zsh -c "pip3 install --user $1"
       fi
-    }
-    pip_cmd flake8
-    pip_cmd yapf
-    pip_cmd isort
-    pip_cmd yamllint
-    pip_cmd jupyter
+    fi
+  }
+  pip_cmd flake8
+  pip_cmd yapf
+  pip_cmd isort
+  pip_cmd yamllint
+  pip_cmd "jupyter notebook"
 fi
 
 # ------------------------------------

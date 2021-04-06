@@ -47,3 +47,4 @@ loadlib $ZSH_LIB_DIR/zplug.zsh
 # 補間処理の呼出
 fpath=($ZSH_FUNC_DIR $fpath)
 compinit
+export PATH=$HOME/.nodebrew/current/bin:$PATH
