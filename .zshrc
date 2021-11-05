@@ -43,6 +43,7 @@ loadlib $ZSH_LIB_DIR/python.zsh
 loadlib $ZSH_LIB_DIR/javascript.zsh
 loadlib $ZSH_LIB_DIR/ruby.zsh
 loadlib $ZSH_LIB_DIR/zplug.zsh
+loadlib $ZSH_LIB_DIR/zfz.zsh
 
 # 補間処理の呼出
 fpath=($ZSH_FUNC_DIR $fpath)

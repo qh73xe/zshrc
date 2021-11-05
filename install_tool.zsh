@@ -17,6 +17,7 @@ install_cmd git
 install_cmd nvim
 install_cmd direnv
 install_cmd xsel
+install_cmd zfz
 
 # cli util
 install_cmd ranger

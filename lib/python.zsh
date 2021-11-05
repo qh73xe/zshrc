@@ -17,7 +17,7 @@ if type python3 > /dev/null; then
   pip_cmd yapf
   pip_cmd isort
   pip_cmd yamllint
-  pip_cmd "jupyter notebook"
+  # pip_cmd "jupyter notebook"
 fi
 
 # ------------------------------------

@@ -8,9 +8,14 @@ case ${OSTYPE} in
     export DISTRIBUTION="darwin"
     ;;
   linux*)
-    # ディストリビューション判定
-    if builtin command -v hostnamectl > /dev/null; then
+    if [[ "$(uname -r)" == *microsoft* ]]; then
+      export DISTRIBUTION="WSL"
+
+    else
+      # ディストリビューション判定
+      if builtin command -v hostnamectl > /dev/null; then
         export DISTRIBUTION=$(hostnamectl | grep 'Operating System' | awk '{ print $3 }' | tr '[A-Z]' '[a-z]')
+      fi
     fi
     # ディストリビューション毎の処理
     export INS_CMD="sudo apt install -y"
@@ -29,17 +34,17 @@ case ${OSTYPE} in
       else
         export IMEOFF_CMD="ibus engine xkb:jp::jpn"
       fi
+      alias open='xdg-open'
     else
       export IMEOFF_CMD=""
     fi
-    alias open='xdg-open'
     ;;
 esac
 
 # IME をオフにする
 ime_off() {
     if [ ${IMEOFF_CMD} ]; then
-        zsh -c "${IMEOFF_CMD}"
+      zsh -c "${IMEOFF_CMD}"
     fi
 }
 autoload -Uz add-zsh-hook
