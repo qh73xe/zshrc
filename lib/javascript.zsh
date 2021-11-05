@@ -18,4 +18,11 @@ if [ -e "$HOME/.yarn/bin" ]; then
   }
   yarn_cmd prettier
   yarn_cmd vue
+  if [ "$DISTRIBUTION" = "WSL" ]; then
+    yarn_cmd wsl-open
+  fi
+fi
+
+if builtin command -v wsl-open > /dev/null; then
+  alias open='wsl-open'
 fi
