@@ -37,10 +37,10 @@ case ${OSTYPE} in
 esac
 
 # IME をオフにする
-ime_off() {
-    if [ ${IMEOFF_CMD} ]; then
-        zsh -c "${IMEOFF_CMD}"
-    fi
-}
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd ime_off
+# ime_off() {
+#     if [ ${IMEOFF_CMD} ]; then
+#         zsh -c "${IMEOFF_CMD}"
+#     fi
+# }
+# autoload -Uz add-zsh-hook
+# add-zsh-hook precmd ime_off
