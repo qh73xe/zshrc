@@ -41,12 +41,15 @@ loadlib $ZSH_LIB_DIR/ranger.zsh
 loadlib $ZSH_LIB_DIR/direnv.zsh
 loadlib $ZSH_LIB_DIR/python.zsh
 loadlib $ZSH_LIB_DIR/javascript.zsh
+loadlib $ZSH_LIB_DIR/go.zsh
 loadlib $ZSH_LIB_DIR/ruby.zsh
 loadlib $ZSH_LIB_DIR/emsdk.zsh
 loadlib $ZSH_LIB_DIR/matlab.zsh
 loadlib $ZSH_LIB_DIR/gh.zsh
 loadlib $ZSH_LIB_DIR/zplug.zsh
+loadlib $ZSH_LIB_DIR/zfz.zsh
 
 # 補間処理の呼出
 fpath=($ZSH_FUNC_DIR $fpath)
 compinit
+export PATH=$HOME/.nodebrew/current/bin:$PATH
