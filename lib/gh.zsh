@@ -1,1 +1,2 @@
-eval "$(gh completion -s zsh)"
+autoload -U compinit
+compinit -i
