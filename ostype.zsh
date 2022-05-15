@@ -6,6 +6,7 @@ case ${OSTYPE} in
     export INS_CMD="brew install"
     export IMEOFF_CMD=""
     export DISTRIBUTION="darwin"
+    loadlib $ZSH_LIB_DIR/mac.zsh
     ;;
   linux*)
     if [[ "$(uname -r)" == *microsoft* ]]; then

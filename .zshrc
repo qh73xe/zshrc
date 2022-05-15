@@ -53,3 +53,5 @@ loadlib $ZSH_LIB_DIR/zfz.zsh
 fpath=($ZSH_FUNC_DIR $fpath)
 compinit
 export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
