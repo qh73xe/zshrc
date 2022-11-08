@@ -37,8 +37,3 @@ install_cmd cmigemo
 # ranger
 install_cmd mupdf
 install_cmd xdotool
-
-
-if [ $DISTRIBUTION = "ubuntu" ]; then
-  install_cmd terminology
-fi

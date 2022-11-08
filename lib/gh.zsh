@@ -1,2 +1,3 @@
-autoload -U compinit
-compinit -i
+if type gh > /dev/null; then
+  eval "$(gh completion -s zsh)"
+fi
