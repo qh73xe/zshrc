@@ -48,6 +48,7 @@ loadlib $ZSH_LIB_DIR/matlab.zsh
 loadlib $ZSH_LIB_DIR/gh.zsh
 loadlib $ZSH_LIB_DIR/zplug.zsh
 loadlib $ZSH_LIB_DIR/zfz.zsh
+loadlib $ZSH_LIB_DIR/android.zsh
 
 # 補間処理の呼出
 fpath=($ZSH_FUNC_DIR $fpath)
