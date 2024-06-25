@@ -22,6 +22,14 @@
 #     yarn_cmd wsl-open
 #   fi
 # fi
+#
+# ------------------------------------
+# Deno
+# ------------------------------------
+if [ -e "$HOME/.deno" ]; then
+  export DENO_INSTALL="$HOME/.deno"
+  export PATH="$DENO_INSTALL/bin:$PATH"
+fi
 
 if builtin command -v wsl-open > /dev/null; then
   alias open='wsl-open'

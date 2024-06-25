@@ -13,10 +13,10 @@ if type python3 > /dev/null; then
       fi
     fi
   }
-  pip_cmd flake8
-  pip_cmd yapf
-  pip_cmd isort
-  pip_cmd yamllint
+  # pip_cmd flake8
+  # pip_cmd yapf
+  # pip_cmd isort
+  # pip_cmd yamllint
 fi
 
 # ------------------------------------
